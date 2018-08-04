@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', auth_views.login, name='login'),
     # url(r'^authenticate/$', auth_views.authenticate, name='authenticate'),
     path('logout/', auth_views.logout, name='logout'),
+    path('register/',auth_views.register, name='register'),
     path('',views.base, name='base'),
 ]
 
