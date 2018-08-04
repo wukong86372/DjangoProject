@@ -5,3 +5,6 @@ from . import models
 def index(request):
     messages = models.Message.objects.all()
     return render(request,'board/index.html',{'messages':messages})
+
+def base(request):
+    return render(request,'board/base.html')

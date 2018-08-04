@@ -1,9 +1,15 @@
-from django.conf.urls import url,include
+from django.urls import path,include
 
-from . import  views
+from . import  views,auth_views
 
 urlpatterns = [
-    url(r'^index/', views.index,name='index'),
+
+    path('index/', views.index, name='index'),
+    #url(r'^login/$', views.login, name='login'),
+    path('login/', auth_views.login, name='login'),
+    # url(r'^authenticate/$', auth_views.authenticate, name='authenticate'),
+    path('logout/', auth_views.logout, name='logout'),
+    path('',views.base, name='base'),
 ]
 
 
