@@ -1,11 +1,8 @@
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password,check_password
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
 from django.forms import models
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from . import models
+from .models import Account
 
 def login(request):
     if request.method == "POST":
@@ -15,7 +12,7 @@ def login(request):
         if username and password:
             username = username.strip()
             try:
-                user = models.Account.objects.get(username=username)
+                user = Account.objects.get(username=username)
                 ps_hash = make_password(password)
                 ps_bool = check_password(password,ps_hash)
                 if ps_bool:
@@ -40,12 +37,12 @@ def register(request):
         if password1 != password2:
             error = '两次密码不一致！'
         else:
-            user = models.Account.objects.filter(username=username)
+            user = Account.objects.filter(username=username)
             if user:
                 error = '用户名已存在!'
             else:
                 password = make_password(password1)
-                user = models.Account.objects.create(username=username, password=password)
+                user = Account.objects.create(username=username, password=password)
                 user.save()
         return render(request, 'board/register.html', {'error': error})
     return render(request, 'board/register.html')

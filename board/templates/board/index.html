@@ -7,6 +7,11 @@
     <link rel="stylesheet" type="text/css" href={% static '../../static/board/index.css' %}>
 </head>
 <body>
+{#    {% if user.is_authenticated %}#}
+{#    {{ user.username }}，<a href="{% url 'board:logout' %}">登出</a>#}
+{#    {% else %}#}
+{#    <a href="{% url 'board:login' %}">登录</a>#}
+{#    {% endif %}#}
     <h1>留言板</h1>
     <p>
         <table>
