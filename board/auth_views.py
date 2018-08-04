@@ -1,5 +1,5 @@
 from django.contrib import auth
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password,check_password
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.forms import models
@@ -11,16 +11,21 @@ def login(request):
     if request.method == "POST":
         username = request.POST.get('username',None)
         password = request.POST.get('password',None)
-        user = auth.authenticate(username=username, password=password)
-        if user is not None:
-            auth.login(request, user)  # 登录
-            request.session['user'] = username  # 将session信息记录到浏览器
-            messages = models.Message.objects.all()
-            return render(request, 'board/index.html', {'messages': messages})
-        else:
-            return render(request, 'board/login.html', {'error': '用户名或密码错误!'})
-    else:
-        return render(request, 'board/login.html', {'error': ''})
+        error = '用户名和密码均不能为空！'
+        if username and password:
+            username = username.strip()
+            try:
+                user = models.Account.objects.get(username=username)
+                ps_hash = make_password(password)
+                ps_bool = check_password(password,ps_hash)
+                if ps_bool:
+                    return redirect('board:index')
+                else:
+                    error = '用户名或密码错误!'
+            except:
+                error = '密码错误！'
+            return render(request, 'board/login.html', {'error': error})
+    return render(request, 'board/login.html')
 
 def logout(request):
     auth.logout(request)
@@ -31,15 +36,16 @@ def register(request):
         username = request.POST.get('username',None)
         password1 = request.POST.get('password1',None)
         password2 = request.POST.get('password2', None)
+        error = '成功创建！'
         if password1 != password2:
-            return render(request, 'board/register.html', {'error': '两次密码不一致！'})
-        user = auth.authenticate(username=username)
-        if len(user) > 0:
-            return render(request, 'board/register.html', {'error': '用户名已存在!'})
+            error = '两次密码不一致！'
         else:
-            password = make_password(password1)
-            user = User.objects.create(username=username, password=password)
-            user.save()
-            return render(request, 'board/register.html', {'error': '成功创建'})
-
+            user = models.Account.objects.filter(username=username)
+            if user:
+                error = '用户名已存在!'
+            else:
+                password = make_password(password1)
+                user = models.Account.objects.create(username=username, password=password)
+                user.save()
+        return render(request, 'board/register.html', {'error': error})
     return render(request, 'board/register.html')
