@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'MessageProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'message',
-        'USER': 'django',
-        'PASSWORD': '216417',
+        'NAME': 'forum',
+        'USER': 'root',
+        'PASSWORD': 'vagrant',
     }
 }
 
