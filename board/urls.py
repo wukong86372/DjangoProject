@@ -10,6 +10,8 @@ urlpatterns = [
     # url(r'^authenticate/$', auth_views.authenticate, name='authenticate'),
     path('logout/', auth_views.logout, name='logout'),
     path('register/',auth_views.register, name='register'),
+    path('like/', views.like, name='like'),
+    #path('like/', views.dislike, name='dislike'),
     path('',views.base, name='base'),
 ]
 

@@ -10,28 +10,52 @@
     {% if user.is_authenticated %}
     {{ user.username }}，<a href="{% url 'board:logout' %}">登出</a>
         <h1>留言板</h1>
-        <table>
-            <tr>
-                <th>标题</th>
-                <th>用户名</th>
-                <th>留言</th>
-                <th>留言时间</th>
-                <th>点赞数</th>
-                <th>踩数</th>
-            </tr>
-            {% for message in messages %}
-                <tr>
-                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.title }}&nbsp;</td>
-                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.username }}&nbsp;</td>
-                    <td style="width: 400px;border: 1px solid red;text-align: center">{{ message.text }}&nbsp;</td>
-                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.data_added }}</td>
-                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.like_num }}&nbsp;</td>
-                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.dislike_num }}&nbsp;</td>
-                    <td>点赞</td>
-                </tr>
-            {% endfor %}
-        </table>
-        <form action="{% url 'board:index' %}" method="POST" style="height: 500px">
+{#        <table>#}
+{#            <tr>#}
+{#                <th>标题</th>#}
+{#                <th>用户名</th>#}
+{#                <th>留言</th>#}
+{#                <th>留言时间</th>#}
+{#                <th>点赞数</th>#}
+{#                <th>踩数</th>#}
+{#            </tr>#}
+{#            {% for message in messages %}#}
+{#                <tr>#}
+{#                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.title }}&nbsp;</td>#}
+{#                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.username }}&nbsp;</td>#}
+{#                    <td style="width: 400px;border: 1px solid red;text-align: center">{{ message.text }}&nbsp;</td>#}
+{#                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.data_added }}</td>#}
+{#                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.like_num }}&nbsp;</td>#}
+{#                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.dislike_num }}&nbsp;</td>#}
+{#                    <td>点赞</td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+{#        </table>#}
+        <p>
+            <b style="width: 10%;color: red">用户名</b>
+            <b style="width: 10%;color: red">标题</b>
+            <b style="width: 15%;color: red">留言时间</b>
+            <b style="width: 45%;color: red">留言内容</b>
+            <b style="width: 5%;color: red">点赞数</b>
+            <b style="width: 5%;color: red">点踩数</b>
+            <b style="width: 5%"></b>
+            <b style="width: 5%"></b>
+        </p>
+        {% for message in messages %}
+            <form method="post" action="{% url 'board:like' %}">
+            <div>{% csrf_token %}</div>
+            <b style="width: 10%;">{{ message.title }}</b>
+            <b style="width: 10%">{{ message.username }}</b>
+            <b style="width: 15%">{{ message.data_added }}</b>
+            <b style="width: 45%">{{ message.text }}</b>
+            <b style="width: 5%">{{ message.like_num }}</b>
+            <b style="width: 5%">{{ message.dislike_num }}</b>
+            <input type="hidden" id="mes_id" name="mes_id" value="{{ message.id }}"/>
+            <input type="submit" name="like" value='赞' class="button"></input>
+            <input type="submit" name="dislike" value="踩" class="button"></input>
+            </form>
+        {% endfor %}
+        <form action="{% url 'board:index' %}" method="POST" style="height: 500px;justify-content: start;">
             <div>{% csrf_token %}</div>
             <div>
                 <label for="title">请输入标题</label>
@@ -44,5 +68,20 @@
     {% else %}
     <a href="{% url 'board:login' %}">登录</a>
     {% endif %}
+    <style type="text/css">
+        * {
+	        box-sizing: border-box;
+        }
 
+        form,p {
+            display: flex;
+            flex-wrap: wrap;
+	        flex-direction: row;
+	        align-items: center;
+  	        justify-content: center;
+        }
+    </style>
+    <script>
+
+    </script>
 </body>

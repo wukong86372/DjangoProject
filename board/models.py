@@ -13,8 +13,6 @@ class Account(AbstractBaseUser):
     def __str__(self):
         return self.username
 
-
-
 class Message(models.Model):
     username = models.CharField(max_length=512)
     title = models.CharField(max_length=256)
@@ -25,3 +23,9 @@ class Message(models.Model):
 
     def __str__(self):
         return self.title
+
+class Like(models.Model):
+    message_id = models.IntegerField()
+    person_id = models.IntegerField()
+    like_date = models.DateTimeField(auto_now_add=True)
+    like_type = models.BooleanField(default=True)
