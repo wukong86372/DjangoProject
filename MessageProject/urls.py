@@ -18,6 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('board/', include(('board.urls','board'))),
-    path('users/', include(('users.urls','users'))),
+    path('', include(('board.urls','board'))),
 ]

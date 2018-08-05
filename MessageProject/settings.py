@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'board',
-    'users',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +126,3 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-# AUTHENTICATION_BACKENDS = (
-#     'board.views.CustomBackend',
-# )

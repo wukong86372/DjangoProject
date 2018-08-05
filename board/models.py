@@ -1,18 +1,6 @@
-
 from django.db import models
-from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser
+from django.contrib.auth.models import  AbstractBaseUser
 # Create your models here.
-
-class Account(AbstractBaseUser):
-    username = models.CharField(max_length=128,unique=True)
-    password = models.CharField(max_length=512)
-    last_login = models.DateTimeField(auto_now_add=True)
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['username', 'password']
-
-    def __str__(self):
-        return self.username
-
 class Message(models.Model):
     username = models.CharField(max_length=512)
     title = models.CharField(max_length=256)

@@ -1,9 +1,6 @@
 from django.contrib import auth
-from django.contrib.auth.hashers import make_password,check_password
 from django.contrib.auth.models import User
-from django.forms import models
 from django.shortcuts import render, redirect
-from .models import Account
 
 def login(request):
     error = ''
