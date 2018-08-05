@@ -6,14 +6,10 @@
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href={% static '../../static/board/index.css' %}>
 </head>
-<body>
-{#    {% if user.is_authenticated %}#}
-{#    {{ user.username }}，<a href="{% url 'board:logout' %}">登出</a>#}
-{#    {% else %}#}
-{#    <a href="{% url 'board:login' %}">登录</a>#}
-{#    {% endif %}#}
-    <h1>留言板</h1>
-    <p>
+<body style="height: 500px">
+    {% if user.is_authenticated %}
+    {{ user.username }}，<a href="{% url 'board:logout' %}">登出</a>
+        <h1>留言板</h1>
         <table>
             <tr>
                 <th>标题</th>
@@ -29,10 +25,24 @@
                     <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.username }}&nbsp;</td>
                     <td style="width: 400px;border: 1px solid red;text-align: center">{{ message.text }}&nbsp;</td>
                     <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.data_added }}</td>
-                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.likeNum }}&nbsp;</td>
-                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.dislikeNum }}&nbsp;</td>
+                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.like_num }}&nbsp;</td>
+                    <td style="width: 200px;border: 1px solid red;text-align: center">{{ message.dislike_num }}&nbsp;</td>
+                    <td>点赞</td>
                 </tr>
             {% endfor %}
         </table>
-    </p>
+        <form action="{% url 'board:index' %}" method="POST" style="height: 500px">
+            <div>{% csrf_token %}</div>
+            <div>
+                <label for="title">请输入标题</label>
+                <input style="width: 100%;height: 100%" type="text" id="title" name="title" required>
+                <label for="text">请输入留言</label>
+                <input style="width: 100%;height: 100%" type="text" id="text" name="text" required>
+                <button type="submit">提交留言</button>
+            </div>
+        </form>
+    {% else %}
+    <a href="{% url 'board:login' %}">登录</a>
+    {% endif %}
+
 </body>

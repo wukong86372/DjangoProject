@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import board
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -126,6 +127,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-AUTHENTICATION_BACKENDS = (
-    'board.views.CustomBackend'
-)
+# AUTHENTICATION_BACKENDS = (
+#     'board.views.CustomBackend',
+# )

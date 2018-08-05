@@ -5,21 +5,24 @@ from .models import Account,Message
 
 # Create your views here.
 def index(request):
-    if not request.user.is_authenticated:
-        return render(request,'board/login.html',{'error':'jiushidengbushang'})
-    else:
-        messages = Message.objects.all()
-        return render(request,'board/index.html',{'messages':messages})
+    # if not request.user.is_authenticated:
+    #     return render(request,'board/login.html',{'error':'jiushidengbushang'})
+    # else:
+    messages = Message.objects.all()
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        text = request.POST.get('text')
+        message = Message()
+        message.text = text
+        message.username = request.user.username;
+        message.title = title
+        message.dislike_num = 0;
+        message.like_num = 0
+        message.save()
+        return redirect('board:index')
+    return render(request,'board/index.html',{'messages':messages})
 
 def base(request):
     return render(request,'board/base.html')
 
-class CustomBackend(ModelBackend):
-    def authenticate(self, request, username=None, password=None, **kwargs):
-        try:
-            user = Account.objects.get(Q(username=username))
-            if user.check_password(password):
-                return user
-        except Exception as e:
-            print(e)
-            return None
+
